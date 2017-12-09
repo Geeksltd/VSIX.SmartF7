@@ -39,7 +39,8 @@ namespace Geeks.GeeksProductivityTools.Menus
             }
             catch (Exception err)
             {
-                MessageBox.Show(err.Message);
+                StackTrace st = new StackTrace(err);
+                Debug.WriteLine(st.ToString());
             }
         }
 
@@ -94,9 +95,10 @@ namespace Geeks.GeeksProductivityTools.Menus
                             cmd.Text = "Go To Related MVC Page";
                         }
             }
-            catch (Exception ex)
+            catch (Exception err)
             {
-                MessageBox.Show(ex.Message, ex.Source);
+                StackTrace st = new StackTrace(err);
+                Debug.WriteLine(st.ToString());
             }
         }
 
@@ -125,23 +127,26 @@ namespace Geeks.GeeksProductivityTools.Menus
 
         bool NextComponentFilePath(Document curDocument)
         {
+            RelatedFilePath = "";
             if (curDocument.IsComponentOfUI())
             {
                 RelatedFilePath = curDocument.GetComponentFromUI();
-                return true;
             }
             else if (curDocument.IsComponentOfWebCtrl())
             {
                 RelatedFilePath = curDocument.GetComponentFromCtrl();
-                return true;
             }
             else if (curDocument.IsComponentOfWebView())
             {
                 RelatedFilePath = curDocument.GetComponentFromView();
-                return true;
             }
 
-            return false;
+            if (RelatedFilePath.Length > 0)
+            {
+                return true;
+            }
+            else
+                return false;
         }
 
         bool NextModuleFilePath(Document curDocument)
