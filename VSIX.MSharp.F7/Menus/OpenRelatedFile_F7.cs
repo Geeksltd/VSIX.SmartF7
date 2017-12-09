@@ -5,6 +5,7 @@ using EnvDTE;
 using Geeks.GeeksProductivityTools.Menus.OpenInMSharp;
 using Geeks.SmartF7.ToggleHandler;
 using Microsoft.VisualStudio.Shell;
+using System.Diagnostics;
 
 namespace Geeks.GeeksProductivityTools.Menus
 {
@@ -38,7 +39,8 @@ namespace Geeks.GeeksProductivityTools.Menus
             }
             catch (Exception err)
             {
-                MessageBox.Show(err.Message);
+                StackTrace st = new StackTrace(err);
+                Debug.WriteLine(st.ToString());
             }
         }
 
@@ -93,9 +95,10 @@ namespace Geeks.GeeksProductivityTools.Menus
                             cmd.Text = "Go To Related MVC Page";
                         }
             }
-            catch (Exception ex)
+            catch (Exception err)
             {
-                MessageBox.Show(ex.Message, ex.Source);
+                StackTrace st = new StackTrace(err);
+                Debug.WriteLine(st.ToString());
             }
         }
 
@@ -124,77 +127,83 @@ namespace Geeks.GeeksProductivityTools.Menus
 
         bool NextComponentFilePath(Document curDocument)
         {
+            RelatedFilePath = "";
             if (curDocument.IsComponentOfUI())
             {
                 RelatedFilePath = curDocument.GetComponentFromUI();
-                return true;
             }
             else if (curDocument.IsComponentOfWebCtrl())
             {
                 RelatedFilePath = curDocument.GetComponentFromCtrl();
-                return true;
             }
             else if (curDocument.IsComponentOfWebView())
             {
                 RelatedFilePath = curDocument.GetComponentFromView();
-                return true;
             }
 
-            return false;
+            if (RelatedFilePath.Length > 0)
+            {
+                return true;
+            }
+            else
+                return false;
         }
 
         bool NextModuleFilePath(Document curDocument)
         {
+            RelatedFilePath = "";
             if (curDocument.IsModuleOfUI())
             {
                 RelatedFilePath = curDocument.GetModuleOfUI();
                 State = PageOrModule.Module;
-                return true;
             }
             else if (curDocument.IsModuleOfWebCtrlModule())
             {
                 RelatedFilePath = curDocument.GetModuleOfWebCtrlModule();
-                return true;
             }
             else if (curDocument.IsModuleOfWebCtrlPage())
             {
                 RelatedFilePath = curDocument.GetModuleOfWebCtrlPage();
-                return true;
             }
             else if (curDocument.IsModuleOfWebVeiwModule())
             {
                 RelatedFilePath = curDocument.GetModuleOfWebViewModule();
-                return true;
             }
             else if (curDocument.IsModuleOfWebViewPage())
             {
                 RelatedFilePath = curDocument.GetModuleOfWebViewPage();
-                return true;
             }
 
-            return false;
+            if (RelatedFilePath.Length > 0)
+            {
+                return true;
+            }
+            else
+                return false;
         }
 
         bool NextMvcFilePath(Document curDocument)
         {
+            RelatedFilePath = "";
             if (curDocument.IsMvcUIPage())
             {
                 RelatedFilePath = curDocument.GetMvcControllerOfUIPage();
                 State = PageOrModule.Page;
-                return true;
             }
             else if (curDocument.IsMvcWebController())
             {
                 RelatedFilePath = curDocument.GetMvcPageOfWebController();
-                return true;
             }
             else if (curDocument.IsMvcWebView())
             {
                 RelatedFilePath = curDocument.GetMvcPageOfWebView();
+            }
+            if (RelatedFilePath.Length > 0 )
+            {
                 return true;
             }
-
-            return false;
+            else
+                return false;
         }
     }
 }
