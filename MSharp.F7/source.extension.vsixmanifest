@@ -4,7 +4,7 @@
         <Identity Id="c6176957-c61c-4beb-8dd8-e7c0170b0bf6" Version="2.38" Language="en-US" Publisher="Geeks Ltd"/>
         <DisplayName>MSharp.F7</DisplayName>
         <Description xml:space="preserve">This is a Visual Studio extension that can improve file navigation for certain project types. </Description>
-        <MoreInfo>https://github.com/Geeksltd/VSIX.SmartF7</MoreInfo>
+        <MoreInfo>https://github.com/Geeksltd/MSharp.F7</MoreInfo>
         <Icon>Resources\icon.png</Icon>
         <PreviewImage>Resources\preview.png</PreviewImage>
         <Tags>extensions, geeks, geeks ltd, productivity tools, productivity</Tags>
